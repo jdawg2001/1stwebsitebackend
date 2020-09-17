@@ -35,6 +35,20 @@ boot(app, __dirname, function(err) {
 
 console.log(Object.keys(app.models));
 
+app.models.user.find((err, result) => {
+  if(result.length === 0){
+    const user = {
+      email: 'jeuel@jeuelgutierrez.com',
+      password: 'test',
+      username: 'jeuel',
+    };
+
+    app.models.user.create(user, (err, result) => {
+      console.log("Tried to create user", err, result);
+    });
+  }
+});
+
 app.models.user.afterRemote('create', (ctx, user, next) => {
   console.log("New User is", user);
   app.models.Profile.create({
